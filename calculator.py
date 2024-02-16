@@ -54,7 +54,6 @@ def tax_calculator_for_married_filing_jointly(taxable_income, tax_year):
             federal_tax_liability=(us_federal_tax_brackets_2024['bracket_7']*(taxable_income-693750))+(us_federal_tax_brackets_2024['bracket_6']*(231250))+(us_federal_tax_brackets_2024['bracket_5']*(98300))+(us_federal_tax_brackets_2024['bracket_4']*(173450))+(us_federal_tax_brackets_2024['bracket_3']*(101300))+(us_federal_tax_brackets_2024['bracket_2']*(67450))+(us_federal_tax_brackets_2024['bracket_1']*22000)
         return federal_tax_liability
 
-
 def tax_calculator_for_single_filer(taxable_income, tax_year):
     if tax_year==2024:
         if taxable_income<=11600:
@@ -124,13 +123,6 @@ def tax_calculator_for_head_of_household(taxable_income, tax_year):
         return federal_tax_liability
 
 
-
-
-
-
-
-
-
 def sep_ira_contribution_limit_calculator(income, tax_year, contribution_rate, filing_status):
     # Limit calculator for self employed individuals
     if tax_year==2024:
@@ -154,7 +146,6 @@ def sep_ira_contribution_limit_calculator(income, tax_year, contribution_rate, f
         else:
             sep_contribution=net_earnings*special_contribution_rate
         # Now calculate savings
-        # Should deduct standard deduction maybe?
         if filing_status == 1: # 1 for indivudal
             tax_before_sep=tax_calculator_for_single_filer(net_earnings, tax_year)
             tax_after_sep=tax_calculator_for_single_filer(net_earnings-sep_contribution, tax_year)
@@ -190,8 +181,6 @@ def sep_ira_contribution_limit_calculator(income, tax_year, contribution_rate, f
             sep_contribution=sep_contribution_cap
         else:
             sep_contribution=net_earnings*special_contribution_rate
-        # Now calculate savings
-        # Should deduct standard deduction maybe?
         if filing_status == 1: # 1 for indivudal
             tax_before_sep=tax_calculator_for_single_filer(net_earnings, tax_year)
             tax_after_sep=tax_calculator_for_single_filer(net_earnings-sep_contribution, tax_year)
@@ -207,44 +196,5 @@ def sep_ira_contribution_limit_calculator(income, tax_year, contribution_rate, f
             tax_after_sep=tax_calculator_for_head_of_household(net_earnings-sep_contribution, tax_year)
             tax_savings=tax_before_sep-tax_after_sep
             return tax_before_sep, tax_after_sep, tax_savings, sep_contribution
-
-
-print(sep_ira_contribution_limit_calculator(800000, 2024, .11, 1))
-        
-print(sep_ira_contribution_limit_calculator(800000, 2023, .11, 1))
-
-
-
-
-"""def calculate_tax_savings(income, filing_status, tax_year, desired_contribution_rate):
-    # Contribution rate may not exceed 20% for self employed people and 25% for employers with eligible 1099 employees.
-    medicare_tax_rate=.029
-    social_security_tax_rate=.124
-    income_subject_to_social_security_tax=147000 # for 2023
-    max_allowable_contribution_2023=66000
-    # Calculate SEP-IRA contribution
-    special_contribution_rate=desired_contribution_rate/(desired_contribution_rate+1)
-    medicare_tax=medicare_tax_rate*.9235*income
-    self_employment_tax=medicare_tax+income_subject_to_social_security_tax*social_security_tax_rate
-    net_earnings=income-(self_employment_tax*.5) # half of self employment tax is tax deductible
-    if net_earnings*special_contribution_rate>max_allowable_contribution_2023:
-        sep_ira_contribution=max_allowable_contribution_2023
-        special_contribution_rate=sep_ira_contribution/net_earnings
     else:
-        sep_ira_contribution=net_earnings*special_contribution_rate
-    if filing_status=='single filer':
-        tax_before_sep_ira = tax_calculator_for_single_filer(net_earnings, tax_year) 
-        tax_after_sep_ira = tax_calculator_for_single_filer(net_earnings - sep_ira_contribution, tax_year)
-        tax_savings = tax_before_sep_ira-tax_after_sep_ira
-        return sep_ira_contribution, tax_before_sep_ira, tax_after_sep_ira, tax_savings, net_earnings, special_contribution_rate
-    elif filing_status=='married filing jointly':
-        tax_before_sep_ira = tax_calculator_for_married_filing_jointly(net_earnings, tax_year) 
-        tax_after_sep_ira = tax_calculator_for_married_filing_jointly(net_earnings - sep_ira_contribution, tax_year)
-        tax_savings = tax_before_sep_ira-tax_after_sep_ira
-        return sep_ira_contribution, tax_before_sep_ira, tax_after_sep_ira, tax_savings, net_earnings, special_contribution_rate
-    # Need to implement head of household and married filing separately rules
-
-print(calculate_tax_savings(200000,'single filer',2023,desired_contribution_rate=.085))
-
-
-print(calculate_tax_savings(200000,'married filing jointly',2023,desired_contribution_rate=.085))"""
+        pass
